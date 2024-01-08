@@ -1,0 +1,194 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+    <head>
+        <style>
+            input[type="range"] {
+            -webkit-appearance: none;
+            margin-right: 15px;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 5px;
+            background-image: linear-gradient(#000080, #000080);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            }
+    
+            input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #000080;
+            cursor: ew-resize;
+            box-shadow: 0 0 2px 0 #555;
+            transition: background .3s ease-in-out;
+            }
+    
+            input[type=range]::-webkit-slider-runnable-track  {
+            -webkit-appearance: none;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+            }
+        </style>
+    
+    </head>
+
+    <main class="main">
+        <div class="container mb-30 mt-30">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop-product-fillter-header">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                                <div class="card">
+                                    <h5 class="mb-30">By Categories</h5>
+                                    <div class="categories-dropdown-wrap font-heading">
+                                        <ul>
+                                            {% for c in categories %}
+                                            <li>
+                                                <input data-filter="category" class="form-check-input filter-checkbox" type="checkbox" name="checkbox" id="exampleCheckbox2" value="{{ c.id }}" />
+                                                &nbsp;&nbsp;
+                                                <a href="{% url 'core:category-product-list' c.cid %}"> <img src="{{c.image.url}}" alt="" />{{ c.title }}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                                <div class="card">
+                                    <h5 class="mb-30">By Vendors</h5>
+                                    <div class="d-flex">
+                                        <div class="customeee-checkbox mr-80">
+                                            {% for v in vendors %}
+                                            <input class="form-check-input filter-checkbox" data-filter="vendor" type="checkbox" name="checkbox" id="exampleCheckbox1" value="{{ v.id }}" />
+                                            <label class="form-check-label" for="exampleCheckbox1"><span>{{v.title}}</span></label>
+                                            <br /><br />
+                                            {% endfor %}
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                        
+                            </div>
+                            <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-5 mb-sm-5">
+                                <div class="card">
+                                    <h5 class="mb-30">Popular Tags</h5>
+                                    <div class="sidebar-widget widget-tags">
+                                        <ul class="tags-list">
+                                            {% for t in tags %}
+                                            <li class="hover-up">
+                                                <a href="{% url 'core:tags' t.slug %}"><i class="fi-rs-cross mr-10"></i>{{t}}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="shop-product-fillter">
+                        <div class="totall-product">
+                            <p>We found <strong class="text-brand">{{products.count}}</strong> items for you!</p>
+                        </div>
+                    </div>
+                    <div class="row product-grid" id="filtered-product">
+
+                        {% for p in products %}
+                        <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="{% url 'core:product-detail' p.pid %}">
+                                            <img class="default-img" src="{{ p.image.url }}" alt="" style="height: 280px; width: 280px; object-fit: cover;"   />
+                                            <img class="hover-img" src="{{ p.image.url }}" alt=""  style="height: 280px; width: 280px; object-fit: cover;"  />
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        {% if not request.user.is_superuser %}
+                                            <a href="{% url 'core:wishlist' %}">
+                                                <img class="svgInject" alt="Heart" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}" />
+                                                {% if request.user.is_authenticated %}
+                                                    <span class="pro-count blue">{{ wishlist.count }}</span>
+                                                {% else %}
+                                                    <span class="pro-count blue">0</span>
+                                                {% endif %}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">-{{p.get_precentage|floatformat:0}}%</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="{% url 'core:product-detail' p.pid %}">{{ p.category.title }}</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">{{ p.title }}</a></h2>
+                                    <div class="product-rate-cover">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <span class="font-small ml-5 text-muted"> ({{ p.reviews.all.count }})</span>
+
+                                    </div>
+                                    <div>
+                                        <span class="font-small text-muted">By <a href="{% url 'core:vendor-detail' p.vendor.vid %}">{{p.vendor.title}}</a></span>
+                                    </div>
+                                    <div class="product-card-bottom">
+                                        <div class="product-price">
+                                            <span>₱</span> <span class="current-product-price-{{ p.id }}">{{p.price}}</span>
+                                            <span class="old-price">₱{{p.old_price}}</span>
+                                        </div>
+                                        <div class="add-cart">
+                                            <input type="hidden" value="1" id="product-quantity" class="product-quantity-{{ p.id }}">
+                                            <input type="hidden" class="product-pid-{{ p.id }}" value="{{ p.pid }}">
+                                            <input type="hidden" class="product-image-{{ p.id }}" value="{{ p.image.url }}">
+                                            <input type="hidden" class="product-id-{{ p.id }}" value="{{ p.id }}">
+                                            <input type="hidden" class="product-title-{{ p.id }}" value="{{ p.title }}">
+                                            <div class="d-flex">
+                                                {% if not user.is_superuser %}
+                                                <i class="fi-rs-shopping-cart mr-5"></i>Add Cart
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+                    <!--product grid-->
+                    <!-- <div class="pagination-area mt-20 mb-20">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><i class="fi-rs-arrow-small-left"></i></a>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#"><i class="fi-rs-arrow-small-right"></i></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div> -->
+                
+                    <!--End Deals-->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+{% endblock content %}
+    

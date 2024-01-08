@@ -1,0 +1,93 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="main">
+        <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-8 mb-40">
+                    <h1 class="heading-2 mb-10">Checkout</h1>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-body">There are <span class="text-brand">{{ totalcartitems }}</span> products in your cart</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="row mb-50">
+                    </div>
+                    <div class="row">
+                        <h4 class="mb-30">Billing Details</h4>
+                        <form method="post">
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <input type="text" required="" name="fname" value="{{ request.user.username|title }}" placeholder="First name *">
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    <input type="text" required="" name="lname" placeholder="mobile *" value="{{ active_address.mobile }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    <input type="text" name="billing_address" value="{{ active_address.address }}" required="" placeholder="Address *">
+                                </div>
+                                
+                            </div>
+                         
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="border p-40 cart-totals ml-30 mb-50">
+                        <div class="d-flex align-items-end justify-content-between mb-30">
+                            <h4>Your Order</h4>
+                            <h6 class="text-muted">Subtotal - <span class="text-brand">₱{{cart_total_amount|floatformat:2}}</span></h6>
+
+                        </div>
+                        <div class="divider-2 mb-30"></div>
+                        <a href="{% url 'core:cart' %}" class="btn btn-fill-out btn-block mt-30 mb-40">Go back to Cart</a>
+                        
+                        <div class="table-responsive order_table checkout">
+                            <table class="table no-border">
+                                <tbody>
+                                    {% for product_id, item in cart_data.items %}
+                                    <tr>
+                                        <td class="image product-thumbnail"><img src="{{ item.image }}" alt="#"></td>
+                                        <td>
+                                            <h6 class="w-160 mb-5"><a href="{% url 'core:product-detail' item.pid %}" class="text-heading">{{item.title}}</a></h6></span>
+                                            
+                                        </td>
+                                        <td>
+                                            <h6 class="text-muted pl-20 pr-20">x {{ item.qty }}</h6>
+                                        </td>
+                                        <td>
+                                            <h5 class="text-muted">₱{{item.price}}</h5>
+                                        </td>
+
+                                        <td>
+                                            <h5 class="text-brand">₱{% widthratio item.price 1 item.qty %}</h5>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="payment ml-30">
+                        <h4 class="mb-30">Payment</h4>
+                        <div class="payment-logo d-flex">
+                            <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-paypal.svg' %}" alt="">
+                            <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-visa.svg' %}" alt="">
+                            <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-master.svg' %}" alt="">
+                            <img src="{% static 'assets/imgs/theme/icons/payment-zapper.svg' %}" alt="">
+                        </div>
+                        <div class="w-50">
+                            {{paypal_payment_button.render}}
+                        </div>
+                        <!-- <a href="#" class="btn btn-fill-out btn-block mt-30">Place an Order<i class="fi-rs-sign-out ml-15"></i></a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+    

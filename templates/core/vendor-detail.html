@@ -1,0 +1,142 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="main">
+        <div class="container mb-30">
+            <div class="archive-header-3 mt-30 mb-80" style="background-image: url({{vendor.cover_image.url}})">
+                <div class="archive-header-3-inner">
+                    <div class="vendor-logo mr-50">
+                        <img src="{{vendor.image.url}}" alt="" />
+                    </div>
+                    <div class="vendor-content">
+                        <div class="product-category">
+                            <span class="text-muted">Since {{vendor.date|date:"Y"}}</span>
+                        </div>
+                        <h3 class="mb-5 text-white"><a href="vendor-details-1.html" class="text-white">{{vendor.title}}</a></h3>
+                        <div class="product-rate-cover mb-15">
+                            <div class="product-rate d-inline-block">
+                                <div class="product-rating" style="width: 90%"></div>
+                            </div>
+                            <span class="font-small ml-5 text-muted"> (4.0)</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="vendor-des mb-15">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="vendor-info text-white mb-15">
+                                    <ul class="font-sm">
+                                        <li><img class="mr-5" src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}" alt="" /><strong>Address: <br> </strong> <span>{{ vendor.address }}</span></li>
+                                        <li><img class="mr-5" src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}" alt="" /><strong>Call Us: <br></strong><span>{{vendor.contact}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="follow-social">
+                                    <h6 class="mb-15 text-white">Follow Us</h6>
+                                    <ul class="social-network">
+                                        <li class="hover-up">
+                                            <a href="#">
+                                                <img src="{% static 'assets/imgs/theme/icons/social-tw.svg' %}" alt="" />
+                                            </a>
+                                        </li>
+                                        <li class="hover-up">
+                                            <a href="#">
+                                                <img src="{% static 'assets/imgs/theme/icons/social-fb.svg' %}" alt="" />
+                                            </a>
+                                        </li>
+                                        <li class="hover-up">
+                                            <a href="#">
+                                                <img src="{% static 'assets/imgs/theme/icons/social-insta.svg' %}" alt="" />
+                                            </a>
+                                        </li>
+                                        <li class="hover-up">
+                                            <a href="#">
+                                                <img src="{% static 'assets/imgs/theme/icons/social-pin.svg' %}" alt="" />
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-row-reverse">
+                <div class="col-lg-4-5">
+                    <div class="shop-product-fillter">
+                        <div class="totall-product">
+                            <p>We found <strong class="text-brand">{{products.count}}</strong> items for you!</p>
+                        </div>
+                      
+                    </div>
+                    <div class="product-list mb-50">
+                        {% for p in products %}
+                        <div class="product-cart-wrap">
+                            <div class="product-img-action-wrap">
+                                <div class="product-img product-img-zoom">
+                                    <div class="product-img-inner">
+                                            <a href="{% url 'core:product-detail' p.pid %}">
+                                            <img class="default-img" src="{{ p.image.url }}" alt="" />
+                                            <img class="hover-img" src="{{ p.image.url }}" alt="" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="product-action-1">
+                                    {% if not request.user.is_superuser %}
+                                    <a aria-label="Add To Wishlist" class="action-btn" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                    <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                    <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                    {% endif %}
+                                </div>
+                                <div class="product-badges product-badges-position product-badges-mrg">
+                                    <span class="hot">-{{p.get_precentage|floatformat:0}}%</span>
+                                </div>
+                            </div>
+                            <div class="product-content-wrap">
+                                <div class="product-category">
+                                    <a href="shop-grid-right.html">{{p.category.title}}</a>
+                                </div>
+                                <h2><a href="shop-product-right.html">{{p.title|truncatechars:50}}</a></h2>
+                                <div class="product-rate-cover">
+                                </div>
+                                {% if p.description %}
+                                <h1 class="mt-15 mb-15">{{ p.description|safe }}</h1>
+                                {% endif %}
+                                <div class="product-price">
+                                    <span>₱{{p.price}} </span>
+                                    <span class="old-price">₱{{p.old_price}}</span>
+                                </div>
+                                <div class="mt-30 d-flex align-items-center">
+                                    {% if not request.user.is_superuser %}
+                                    <a aria-label="Buy now" class="btn" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add to Cart</a>
+                                    <a href="#" class="add-wishlish ml-30 text-body font-sm font-heading font-weight-bold"><i class="fi-rs-shuffle mr-5"></i>Add Compare</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                
+                
+                
+                </div>
+                <div class="col-lg-1-5 primary-sidebar sticky-sidebar">
+                    <div class="sidebar-widget widget-category-2 mb-30">
+                        <h5 class="section-title style-1 mb-30">Category</h5>
+                        <ul>
+                            {% for c in categories %}
+                            <li>
+                                <a href="shop-grid-right.html"> <img src="{{c.image.url}}" alt="" />{{c.title}}</a><span class="count">{{c.category.all.count}}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- Fillter By Price -->
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
