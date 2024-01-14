@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>LVL+ Ecommerce</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/imgs/theme/favicon.svg' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+</head>
+
+<body>
+    <div class="invoice invoice-content invoice-5">
+        <div class="back-top-home justify-content-center align-items-center text-center hover-up mt-30 ml-30 pb-4">
+            <h3><a class="hover-up" href=""><i class="fi-rs-settings-sliders mr-5"></i>Purchase Completed</a></h3>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="invoice-inner">
+                        <div class="invoice-info" id="invoice_wrapper">
+                            <div class="invoice-header">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="logo d-flex align-items-center">
+                                            <div class="text">
+                                                <strong class="text-brand">LVL+ Ecommerce</strong> <br />
+                                                Argao Cebu, Philippines
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                        <h2>INVOICE</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice-banner">
+                                <img src="{% static 'assets/imgs/invoice/banner.png' %}" alt="">
+                            </div>
+                            <div class="invoice-center">
+                                <div class="table-responsive">
+                                    <table class="table table-striped invoice-table">
+                                        <thead class="bg-active">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th class="text-center">Price</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for product_id, item in cart_data.items %}
+                                            <tr>
+                                                <td>
+                                                    <div class="item-desc-1">
+                                                        <span>{{item.title}}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">₱{{item.price}}</td>
+                                                <td class="text-center">{{ item.qty }}</td>
+                                                <td class="text-right">₱{% widthratio item.price 1 item.qty %}.00</td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            <tr>
+                                                <td colspan="3" class="text-end f-w-600">SubTotal</td>
+                                                <td class="text-right">₱{{cart_total_amount}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end f-w-600">Grand Total</td>
+                                                <td class="text-right f-w-600">₱{{cart_total_amount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="invoice-bottom pb-80">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-15">Invoice Infor</h6>
+                                        <p class="font-sm">
+                                            <strong>Invoice To:</strong> {{request.user|title}}<br />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                        <h6 class="mb-15">Total Amount</h6>
+                                        <h3 class="mt-0 mb-0 text-brand">₱{{cart_total_amount}}</h3>
+                                        <p class="mb-0 text-muted">Taxes Included</p>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="hr mt-30 mb-30"></div>
+                                    <p class="mb-0 text-muted"><strong>Hey {{ request.user|title }}, </strong>Thanks for our shopping at LVL+</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice-btn-section clearfix d-print-none">
+                            <a href="javascript:window.print()" class="btn btn-lg btn-custom btn-print hover-up"> <img src="{% static 'assets/imgs/theme/icons/icon-print.svg' %}" alt="" /> Print </a>
+                            <a id="invoice_download_btn" class="btn btn-lg btn-custom btn-print hover-up"> <img src="{% static 'assets/imgs/theme/icons/icon-download.svg' %}" alt="" /> Download </a>
+                            <a href="{% url 'core:index' %}" class="btn btn-lg btn-custom btn-print hover-up"> <img src="{% static 'assets/imgs/theme/icons/icon-print.svg' %}" alt="" /> Home </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vendor JS-->
+    <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <!-- Invoice JS -->
+    <script src="{% static 'assets/js/invoice/jspdf.min.js' %}"></script>
+    <script src="{% static 'assets/js/invoice/invoice.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="main page-404">
+        <div class="page-content pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-10 col-md-12 m-auto text-center">
+                        <p class="mb-20"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAkFBMVEX/////AAD/09P/1tb//Pz/ycn/zc3/0dH/xMT/jIz/+vr/f3//d3f/k5P/hYX/zs7/bGz/QED/e3v/c3P/TU3/gYH/rq7/mpr/iIj/UVH/SUn/RUX/Nzf/6Oj/ZWX/vr7/t7f/qKj/Ojr/8fH/3t7/q6v/oqL/mJj/YmL/W1v/Ly//KCj/s7P/KSn/Hx//Dw8oSAJBAAAF/0lEQVR4nO3d6XbbOAwFYCp2Usep23SbdHPqtu6WTpr3f7sxp8mJJF/IoASQgA/vf1L4DnxsayNDqKmpqampqampqampqampOe6sZ9tl6Rq4Wc/WqUPmq7tml+uvGvVI5zyW2lwk1TprHnKiVZZYtncPtX7iDzppHrPQq00kp61a2cRl07ghLjq1cj+o540bYhfYvGEOaxovxEW/VN6wdX+YWeIesOH9aJzsjTNK3Ac2M9bA7f5Ak0QAbLa8oWCkQSICNsx/YS89ECHwJ3PwEg1O+ceQIRDI/j0Mz80TMfCUP8HGOBEDNylTfDNNxMB/0iaxTBQBhvDZLFEISBE30vUmRwxolYiB38ZN9t0gEQM/j53OHlEYaI8oDrRGPIXVfJ826ZUhogrQElEJGMIPI0QMvJKYGhP/lZg6IYrAEFYGiKpAC0QM/CF3gNJEdeDeZfD7jPq7OyIYuJI9SEniWQ5gSWImYDliNmAIb+GhRp6ZsYOB5zoHe1aAmBVYgoiBb/UO+AYecNL52WCyA3MTMfCZ0tHuc5GRiG8uKANzEgsBiXtvCkQM5D6LMCmYKHCu3cmTcsAQnmYgYuCF6DEGok/EH9GXgkc4EG0i7mBGYAivVIkY+FRodmY0iSaAmkQjQIo4/eoXeCSrDDCESxUiBr4SqTg5GkRTwBCuxYkYeClWcXIwcfx1THNAaaJBYAg/BYkYeC1ccXIwcczFPqNAOaJZYAi/RIgzOIsJoAwRA7lPxKpnOtE4MIR3sED+lWkM/KVYcXKmER0ApxFdAKcQMfCdesXJGUt00sGY16OIbjoYM4boChjCe1ju0M0wDHydreLkpBLRS2SmgSF8SCJi4PusFScHE/EtMZfAFKJTYAgvmEQM/FCg4uTwiI6BIXyBxXdvbroGUl1sE50DqS4+3sHFwBcFK07O8Af1CIAhfBzoIgZ+KVxxcjAx3qg+EmCYU108FuAuN5CCb6x+LF3sqMwxEQLnpYsdl/ktE3hTutLRWfK6eOO0gzHL30cO3BEPf1B9A3fEPweAt26WvaNygHjrvIMxg8Tf7jsYM0D8cxTAAeJxdDBmf320v3Gx7iQn5A+/1z9r/Qz8efP7d62dwR/9Y+jigTMMn6dN7Rw8hXJ56tsK4xzRN5F1EuyZyDzLd3YZsRX2ZQyvxITrNI4u57eDgfjNN49EooMz4r1+h0QKSC1d4ODebydkB2OOgUhc0n9YxxgTTT9k0stgB2O8Ew90MAYTzT7s1c9hILWMiA8io4MxjrvIA/rtIrODMbiLJh+dbYcPpLpom5jQwRiHRPyQCb1hgTtiWgdj8KpFZompHYzBXTT0OlA7GHhoOyXcRZPEcUCKaOS1vHbGAt0QxwMpYuEXnPuZAnRBnAZ0QMTPBKdsSmecOLWDMXipu2LrYXQzvYMxuIsmiDJAw12UAlJdLLL0TjtyQKqLhYmSQIqYdRGzfmSB1LKTBYnSQHNE/CLetN1nMTHTgpD94A4+mTirISLu4FQgRcywMGs/Oh2MMULU6mCMCaJeB2MwUXWR6340OxiDH2fISNQGUkS1xeb70QcWJuYAFiXmAVJElX0tusGLe8gDixFzdTCmCDFfB2MwUXQTpH5wB5+rHQ+vG65IxB3UA1JEsc3I+skPzEwsAcyzTcF9ygAzEksBsxHxWmw5gJmIGHgmexAyeB0G0Y1fygKpLgoSSwPVu1geSBGFNkSzAKSIIpsTlvwWbUeNaAVIESdv92rjI/o3KkS8dG4ZoArRFlCBaA1IETdjp7MHpPa22YybzCJQtIs2gVQXP6VPZBUoRsQbOpxqVJwcESKexAZQhLgyDaSIC/4EC+NAish+0GVuHkgRuYsWwc+oLSCxWxj3oWIPQKKLvAV90LpV9oC4i1vWSLB5lkUgJA6/ZPWQ/R7aBCLimjfQCxAQmePOvQD3vm64z713fw8T/ikUSPdqOPND2v2usQ0M4apVa8LNmscNbqY98ZsjZ2OAuw/q6i6OuXaxduPV/7Ve8n4LW1mfbN0svrmrtXQJNTU1NTU1NTU1NTU1NTU1yvkPTjpYTpEKwfYAAAAASUVORK5CYII=" alt="" class="hover-up" /></p>
+                        <h1 class="display-2 mb-30">Payment Failed</h1>
+                        <p class="font-lg text-grey-700 mb-30">
+                            Try Again Later
+                        </p>
+                        
+                        <a class="btn btn-default submit-auto-width font-xs hover-up mt-30" href="{% url 'core:index' %}"><i class="fi-rs-home mr-5"></i> Back To Home Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
+    

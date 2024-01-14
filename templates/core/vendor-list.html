@@ -1,0 +1,61 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <!--End header-->
+    <main class="main pages mb-80">
+        <div class="page-content pt-50">
+            <div class="container">
+                <div class="archive-header-2 text-center">
+                    <h1 class="display-2 mb-50">Vendors List</h1>
+                    <div class="row">
+                    </div>
+                </div>
+                <div class="row mb-50">
+                </div>
+                <div class="row vendor-grid">
+                    {% for v in vendors %}
+                    <div class="col-lg-6 col-md-6 col-12 col-sm-6">
+                        <div class="vendor-wrap style-2 mb-40">
+                            <div class="product-badges product-badges-position product-badges-mrg">
+                                <!-- <span class="hot">Mall</span> -->
+                            </div>
+                            <div class="vendor-img-action-wrap">
+                                <div class="vendor-img">
+                                    <a href="{% url 'core:vendor-detail' v.vid %}">
+                                        <img class="default-img" src="{{v.image.url}}" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="vendor-content-wrap">
+                                <div class="mb-30">
+                                    <div class="product-category">
+                                        <span class="text-muted">Since {{v.date|date:"Y"}}</span>
+                                    </div>
+                                    <h4 class="mb-5"><a href="{% url 'core:vendor-detail' v.vid %}">{{v.title}}</a></h4>
+                                    <div class="product-rate-cover">
+                                        <div class="product-rate d-inline-block">
+                                            <div class="product-rating" style="width: 90%"></div>
+                                        </div>
+                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                    </div>
+                                    <div class="vendor-info d-flex justify-content-between align-items-end mt-30">
+                                        <ul class="contact-infor text-muted">
+                                            <li><img src="assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>{{v.address}}</span></li>
+                                            <li><img src="assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>{{v.contact}}</span></li>
+                                            <li><span>{{v.product.all.count}} <b>Product(s)</b></span></li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                    <br>
+                                    <a href="{% url 'core:vendor-detail' v.vid %}" class="btn btn-xs">Visit Store <i class="fi-rs-arrow-small-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% endblock content %}
