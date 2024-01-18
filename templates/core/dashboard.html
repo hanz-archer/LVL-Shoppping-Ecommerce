@@ -16,16 +16,18 @@
                                         <li class="nav-item">
                                             <a class="nav-link" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
                                         </li>
+                                        {% if not request.user.is_superuser %}
                                         <li class="nav-item">
-                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false">
+                                                <i class="fi-rs-shopping-bag mr-10"></i>Orders
+                                            </a>
                                         </li>
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
-                                        </li> -->
+                                        {% endif %}
+                                        {% if not request.user.is_superuser %}
                                         <li class="nav-item">
                                             <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
                                         </li>
-                                        
+                                        {% endif %}
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'userauths:sign-out' %}">
                                                 <i class="fi-rs-sign-out mr-10"></i>Logout
@@ -76,10 +78,6 @@
                                                     manage your <a href="#">shipping and billing addresses</a> and <a href="#">edit your password and account details.</a>
                                                 </p>
                                             </div>
-                                            <!-- <div class="mt-4">
-                                                <p>{{ month }}</p>
-                                                <p>{{ total_orders }}</p>
-                                            </div> -->
                                             <div style="height: 800px; width: 800px; object-fit: cover;">
                                                 <canvas id="myChart"></canvas>
                                             </div>

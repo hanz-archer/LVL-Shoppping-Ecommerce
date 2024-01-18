@@ -17,12 +17,14 @@ class UserRegisterForm(UserCreationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    phone = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Phone"}))
+    phone = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Phone"}), required=False)
     new_username = forms.CharField(max_length=150, required=False, help_text='Leave it empty if you do not want to change your username.')
+    new_phone = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "New Phone"}), required=False)
 
     class Meta:
         model = Profile
-        fields = ['image', 'phone', 'new_username']
+        fields = ['image', 'phone', 'new_username', 'new_phone']
+
 
 
 @login_required
@@ -39,10 +41,12 @@ def edit_profile(request):
             profile_form.save()
             messages.success(request, 'Your profile has been updated successfully!')
 
-            # Assuming you want to update the displayed username after the update
+            # Refresh the user and profile from the database to get the updated information
             user.refresh_from_db()
+            profile.refresh_from_db()
+
+            # Pass the updated user_profile to the template
             return render(request, 'edit_profile.html', {'user_profile': user.profile})
-            
         else:
             messages.error(request, 'Please correct the errors in the form.')
 

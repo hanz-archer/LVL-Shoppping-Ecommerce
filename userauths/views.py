@@ -80,17 +80,22 @@ def profile_update(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         
         if form.is_valid():
-            new_form = form.save(commit=False)
-            
+            # Handle the phone field separately to avoid validation error
+            new_phone = form.cleaned_data.get('new_phone')
+            if not new_phone:
+                # If new_phone is not provided, use the existing phone value
+                new_phone = profile.phone
+
             # Update the user's username if provided in the form
-            new_username = form.cleaned_data.get('new_username')  # Add a new_username field in your ProfileForm
+            new_username = form.cleaned_data.get('new_username')
             if new_username:
                 request.user.username = new_username
                 request.user.save()
 
-            new_form.user = request.user
-            new_form.save()
-            
+            # Update profile with new values
+            profile.phone = new_phone
+            form.save()
+
             messages.success(request, "Profile Updated Successfully.")
             return redirect("core:dashboard")
     else:
@@ -102,4 +107,5 @@ def profile_update(request):
     }
 
     return render(request, "userauths/profile-edit.html", context)
+
 
