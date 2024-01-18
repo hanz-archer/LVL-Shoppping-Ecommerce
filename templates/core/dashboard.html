@@ -52,17 +52,10 @@
                                                 </div>
 
                                                 <div>
-                                                    <span><input class="mb-2" type="text" value="Name - {{ user_profile.full_name }}"></span>
-                                                    <span><input class="mb-2" type="text" value="Bio - {{ user_profile.bio }}"></span>
-                                                    <span><input class="mb-2" type="text" value="Phone - {{ user_profile.phone }}"></span>
+                                                    <span><input class="mb-2" type="text" value="{{ request.user.username }}"></span>
+                                                    <span><input class="mb-2" type="text" value="{{ user_profile.phone }}"></span>
                                                     {% if user_profile.verified == True %}
-                                                    <div class="p-4 border rounded">
-                                                        <span>Verified</span> <span> <i class="fas fa-check-circle"></i> </span>
-                                                    </div>
                                                     {% else %}
-                                                    <div class="p-4 border rounded">
-                                                        <span>Not verified </span> <span> <i class="fas fa-x"></i> </span>
-                                                    </div>
                                                     {% endif %}
                                                     <div class="p-4 border rounded">
                                                        <a href="{% url 'userauths:profile-update' %}" class="btn btn-succees">Edit Profile</a>

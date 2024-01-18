@@ -2,7 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-  
+
 <section class="content-main">
     <div class="content-header">
         <div>
@@ -20,9 +20,7 @@
                     <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                     <div class="text">
                         <h6 class="mb-1 card-title">Revenue</h6>
-                        <!-- <span>₱13,456.5</span> -->
                         <span>₱{{ revenue.price|floatformat:2|intcomma }}</span>
-                        <span class="text-sm"> Shipping fees are not included </span>
                     </div>
                 </article>
             </div>
@@ -57,9 +55,7 @@
                     <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                     <div class="text">
                         <h6 class="mb-1 card-title">Monthly Earning</h6>
-                        <!-- <span>₱6,982</span> -->
                         <span>{{ monthly_revenue.price|floatformat:2|intcomma }}</span>
-                        <span class="text-sm"> Based in your local time. </span>
                     </div>
                 </article>
             </div>
@@ -70,32 +66,29 @@
         <header class="card-header">
             <h4 class="card-title">Latest orders</h4>
             <div class="row align-items-center">
-                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                    <div class="custom_select">
-                        <select class="form-select select-nice">
-                            
-                            {% for c in all_categories %}
-                            <option selected>{{c.title|title}}</option>
-                            {% endfor %}
-                                    
-                            </select>
-                    </div>
-                </div>
-                <div class="col-md-2 col-6">
-                    <input type="date" value="02.05.2021" class="form-control" />
-                </div>
-                <div class="col-md-2 col-6">
-                    <div class="custom_select">
-                        <select class="form-select select-nice">
-                                <option selected>Status</option>
-                                <option>All</option>
-                                <option>Paid</option>
-                                <option>Chargeback</option>
-                                <option>Refund</option>
-                            </select>
-                    </div>
-                </div>
+    <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+    </div>
+    <form method="get" action="{% url 'useradmin:dashboard' %}" id="filterForm">
+        <div class="col-md-2 col-6">
+            <div class="input-group">
+                <input type="date" name="transactionDate" id="transactionDate" value="{{ selected_date }}" class="form-control" />
+                <button class="btn custom-button" type="button" id="applyFiltersBtn">Clear Calendar</button>
             </div>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('#applyFiltersBtn').on('click', function () {
+                $('#transactionDate').val('');
+                $('#filterForm').submit();
+            });
+
+            $('#transactionDate').on('input change', function () {
+                $('#filterForm').submit();
+            });
+        });
+    </script>
+</div>
         </header>
         <div class="card-body">
             <div class="table-responsive">

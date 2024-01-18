@@ -12554,5 +12554,15 @@ footer .hotline img {
         font-size: 35px;
     }
 }
+.custom-button {
+    background-color: #000080; /* Set background color */
+    color: #ffffff; /* Set text color */
+    border: 1px solid #000080; /* Set border color */
+    padding: 10px; /* Adjust padding */
+    cursor: pointer;
+}
 
-/*# sourceMappingURL=main.css.map */
+.custom-button:hover {
+    background-color: #ffffff; /* Change background color on hover */
+    color: #000080; /* Change text color on hover */
+}

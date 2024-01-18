@@ -75,12 +75,22 @@ def logout_view(request):
 
 def profile_update(request):
     profile = Profile.objects.get(user=request.user)
+
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
+        
         if form.is_valid():
             new_form = form.save(commit=False)
+            
+            # Update the user's username if provided in the form
+            new_username = form.cleaned_data.get('new_username')  # Add a new_username field in your ProfileForm
+            if new_username:
+                request.user.username = new_username
+                request.user.save()
+
             new_form.user = request.user
             new_form.save()
+            
             messages.success(request, "Profile Updated Successfully.")
             return redirect("core:dashboard")
     else:
@@ -92,3 +102,4 @@ def profile_update(request):
     }
 
     return render(request, "userauths/profile-edit.html", context)
+
