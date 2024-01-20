@@ -32,6 +32,7 @@ def register_view(request):
 
     context = {'form': form}
     return render(request, "userauths/sign-up.html", context)
+
 def login_view(request):
     if request.user.is_authenticated:
         messages.warning(request, "Hey, you are already logged in.")

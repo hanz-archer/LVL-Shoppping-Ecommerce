@@ -96,16 +96,33 @@ from django.utils import timezone
 
 # Modify your dashboard view
 def dashboard(request):
-    # Get the selected date and status from the request's GET parameters
+    # Get the selected date range and specific date from the request's GET parameters
     selected_date = request.GET.get('transactionDate')
-    selected_status = request.GET.get('status', 'all')
+    start_date = request.GET.get('startDate')
+    end_date = request.GET.get('endDate')
+    specific_date_str = request.GET.get('specificDate')
 
-    # Fetch orders based on the selected date and status or all orders if no date is selected
+    specific_date = datetime.datetime.strptime(specific_date_str, "%Y-%m-%d").date() if specific_date_str else None
+
+    # Fetch orders based on the selected date or all orders if no date is selected
     if selected_date:
         selected_date = datetime.datetime.strptime(selected_date, "%Y-%m-%d").date()
-        latest_orders = CartOrder.objects.filter(order_date__date=selected_date, paid_status=(selected_status == 'paid'))
+        latest_orders = CartOrder.objects.filter(order_date__date=selected_date)
     else:
-        latest_orders = CartOrder.objects.filter(paid_status=(selected_status == 'paid'))
+        latest_orders = CartOrder.objects.all()
+    
+    if specific_date:
+        # Fetch orders for a specific date
+        latest_orders = CartOrder.objects.filter(order_date__date=specific_date)
+    elif start_date and end_date:
+        # Fetch orders within a date range
+        start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
+        end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
+        latest_orders = CartOrder.objects.filter(order_date__date__range=[start_date, end_date])
+    elif selected_date:
+        # Fetch orders based on the selected date
+        selected_date = datetime.datetime.strptime(selected_date, "%Y-%m-%d").date()
+        latest_orders = CartOrder.objects.filter(order_date__date=selected_date)
 
     # Your existing code for other dashboard data
     revenue = CartOrder.objects.aggregate(price=Sum("price"))
@@ -113,7 +130,6 @@ def dashboard(request):
     all_products = Product.objects.all()
     all_categories = Category.objects.all()
     new_customers = User.objects.all().order_by("-id")[:6]
-
     this_month = datetime.datetime.now().month
     monthly_revenue = CartOrder.objects.filter(order_date__month=this_month).aggregate(price=Sum("price"))
 
@@ -126,10 +142,13 @@ def dashboard(request):
         "latest_orders": latest_orders,
         "total_orders_count": total_orders_count,
         "selected_date": selected_date,
-        "selected_status": selected_status,  # Include the selected status in the context
+        "specific_date": specific_date,  # Include the specific date in the context
+        "start_date": start_date,  # Include the start date in the context
+        "end_date": end_date,  # Include the end date in the context
     }
 
     return render(request, "useradmin/dashboard.html", context)
+
 
 
 

@@ -71,19 +71,48 @@
     <form method="get" action="{% url 'useradmin:dashboard' %}" id="filterForm">
         <div class="col-md-2 col-6">
             <div class="input-group">
-                <input type="date" name="transactionDate" id="transactionDate" value="{{ selected_date }}" class="form-control" />
-                <button class="btn custom-button" type="button" id="applyFiltersBtn">Clear Calendar</button>
+                <label for="specificDate" class="visually-hidden">Filter by Specific Date</label>
+                <p class="text-center">Specific Date</p>
+                <input type="date" name="specificDate" id="specificDate" class="form-control" placeholder="Specific Date" value="{{ specific_date }}" />
             </div>
         </div>
+        
+        <div class="col-md-2 col-6">
+            <div class="input-group">
+                <label for="startDate" class="visually-hidden">Filter by Start Date</label>
+                <p class="text-center">Start Date</p>
+                <input type="date" name="startDate" id="startDate" class="form-control" placeholder="Start Date" value="{{ start_date }}" />
+            </div>
+        </div>
+        
+        <div class="col-md-2 col-6">
+            <div class="input-group">
+                <label for="endDate" class="visually-hidden">Filter by End Date</label>
+                <p class="text-center">End Date</p>
+                <input type="date" name="endDate" id="endDate" class="form-control" placeholder="End Date" value="{{ end_date }}" />
+            </div>
+        </div>        
     </form>
     <script>
         $(document).ready(function () {
             $('#applyFiltersBtn').on('click', function () {
-                $('#transactionDate').val('');
+                // Clear the date inputs
+                $('#specificDate').val('');
+                $('#startDate').val('');
+                $('#endDate').val('');
+                // Submit the form
                 $('#filterForm').submit();
             });
-
-            $('#transactionDate').on('input change', function () {
+    
+            // Listen for changes in the date inputs
+            $('#specificDate, #startDate, #endDate').on('input change', function () {
+                // Submit the form
+                $('#filterForm').submit();
+            });
+    
+            // Listen for changes in the status dropdown
+            $('#statusFilter').on('change', function () {
+                // Submit the form
                 $('#filterForm').submit();
             });
         });
@@ -134,6 +163,9 @@
                             </tr>
                             {% endfor %}
                         </tbody>
+                        <button class="btn custom-button" type="button" id="applyFiltersBtn">Clear Calendar</button>
+                    </div>
+                </div>
                     </table>
                 </div>
             </div>
